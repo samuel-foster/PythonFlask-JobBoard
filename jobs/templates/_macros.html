@@ -1,0 +1,34 @@
+{% macro show_job(job) %}
+
+<p class="card_header_title"> 
+
+    <a>{{ job['title'] }}</a>
+
+</p>
+
+<div class="content">
+    <p>
+        <a>{{ job['employer_name'] }}
+
+            ${{ job['salary']}}
+
+            {{job['description']}}
+        </a>
+    </p>
+  </div>
+{% endmacro %}
+
+{% macro show_jobs(jobs) %}
+<div class="columns is-multiline">
+    
+    <p>
+        <a>{{ job['employer_name'] }}
+
+            ${{ job['salary']}}
+
+            {{job['description']}}
+        </a>
+    </p>
+  </div>
+{% endmacro %}
+

@@ -1,5 +1,3 @@
-from time import strftime
-from urllib import request
 from flask import Flask, render_template, g, request, redirect, url_for
 import sqlite3, datetime
 
@@ -9,7 +7,6 @@ app = Flask(__name__)
 
 def open_connection():
     connection = getattr(g, '_connection', None)
-
     if connection == None:
         connection = g._connection = sqlite3.connect(PATH)
     connection.row_factory = sqlite3.Row
@@ -18,7 +15,7 @@ def open_connection():
 def execute_sql(sql, values = (), commit = False, single = False):
     connection = open_connection()
     cursor = connection.execute(sql, values)
-    if commit is True:
+    if commit == True:
         results = connection.commit()
     else:
         results = cursor.fetchone() if single else cursor.fetchall()
@@ -56,9 +53,11 @@ def review(employer_id):
         rating = request.form['rating']
         title = request.form['title']
         status = request.form['status']
+
         date =datetime.datetime.now().strftime("%m/%d/%Y")
 
         execute_sql('INSERT INTO review (review, rating, title, date, status, employer_id) VALUES (?, ?, ?, ?, ?, ?)', (review, rating, title, date, status, employer_id), commit=True)
+        
         return redirect(url_for('employer',employer_id=employer_id))
     
     return render_template('review.html', employer_id=employer_id)
